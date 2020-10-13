@@ -1,0 +1,92 @@
+use my_publishing_house
+go
+
+CREATE TABLE Publishing_house(
+Id_pb INTEGER NOT NULL,
+Pb_name CHAR(20) NOT NULL,
+Cellphone INT NOT NULL,
+Landline_phone INT,
+Email CHAR(20) NOT NULL,
+Website VARCHAR(MAX) NOT NULL,
+City CHAR(20) NOT NULL,
+Pb_address CHAR(20) NOT NULL,
+House_num CHAR(4) NOT NULL,
+Region CHAR(20) NOT NULL,
+Zip_code CHAR(5) NOT NULL,
+PRIMARY KEY (Id_pb) );
+
+CREATE TABLE Publishing_type (
+Id_pb_type INTEGER NOT NULL, 
+Name_pb_type CHAR(20) NOT NULL,
+PRIMARY KEY  (Id_pb_type) );
+
+CREATE TABLE Buyer(
+Id_buyer INTEGER NOT NULL PRIMARY KEY,
+Buyer_name CHAR(15) NOT NULL,
+Buyer_surname CHAR(15) NOT NULL, 
+Cellphone INT NOT NULL,
+Landline_phone INT,
+City CHAR(20) NOT NULL,
+Buyer_address  CHAR(20) NOT NULL,
+House_num CHAR(4) NOT NULL,
+Region CHAR(20) NOT NULL,
+Zip_code CHAR(5) NOT NULL,
+Email CHAR(20) NOT NULL);
+
+CREATE TABLE Typography(
+Id_tp INTEGER NOT NULL  PRIMARY KEY,
+Tp_name CHAR(20) NOT NULL,
+City CHAR(20) NOT NULL,
+Tp_address CHAR(20) NOT NULL,
+House_num CHAR(4) NOT NULL,
+Region CHAR(20) NOT NULL,
+Zip_code CHAR(5) NOT NULL,
+Cellphone INT NOT NULL,
+Landline_phone INT,
+Website VARCHAR(MAX) NOT NULL,
+Email CHAR(20) NOT NULL);
+
+CREATE TABLE Author(
+Id_author INTEGER NOT NULL PRIMARY KEY,
+A_name CHAR(15) NOT NULL,
+A_surname CHAR(15) NOT NULL, 
+Cellphone INT NOT NULL,
+Landline_phone INT,
+City CHAR(20) NOT NULL,
+A_address  CHAR(20) NOT NULL,
+House_num CHAR(4) NOT NULL,
+Region CHAR(20) NOT NULL,
+Zip_code CHAR(5) NOT NULL,
+Email CHAR(20) NOT NULL);
+
+CREATE TABLE Book(
+Id_book INTEGER NOT NULL  PRIMARY KEY,
+Id_pb_type INT NOT NULL,
+Book_name CHAR(20) NOT NULL,
+Page_num INT NOT NULL,
+Print_copies_num INT NOT NULL,
+Pubishing_year DATE NOT NULL,
+Price MONEY NOT NULL
+CONSTRAINT FKpublishing_type FOREIGN KEY (Id_pb_type)
+REFERENCES Publishing_type ON DELETE CASCADE ON UPDATE CASCADE);
+
+
+
+CREATE TABLE Customer_order(
+Id_customer_order INTEGER NOT NULL  PRIMARY KEY,
+Id_pb INT NOT NULL,
+Id_buyer INT NOT NULL,
+Id_tp INT NOT NULL,
+Id_book INT NOT NULL,
+Id_author INT NOT NULL,
+Order_date Date NOT NULL,
+CONSTRAINT FKpb_house_order FOREIGN KEY (Id_pb)
+REFERENCES Publishing_house ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FKbuyer FOREIGN KEY (Id_buyer)
+REFERENCES Buyer ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FKbook FOREIGN KEY (Id_book)
+REFERENCES Book ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FKAuthor FOREIGN KEY (Id_author)
+REFERENCES Author ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT FKtypography FOREIGN KEY (Id_tp)
+REFERENCES Typography ON DELETE CASCADE ON UPDATE CASCADE);
